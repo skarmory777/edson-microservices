@@ -14,7 +14,7 @@ public class CandidateModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 	
-    @Column(name="NAME", nullable = false, length = 50)
+    @Column(name="NAME", nullable = false, unique = true, length = 50)
     private String name;
     
     @Column(name="CPF", nullable = false, unique = true, length = 11)
