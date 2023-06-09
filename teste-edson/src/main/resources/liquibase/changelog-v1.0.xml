@@ -1,0 +1,67 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+	<property name="uuid_type" value="uuid" dbms="postgresql"/>
+	<property name="uuid_type" value="uniqueidentifier" dbms="mssql"/>
+	<property name="uuid_type" value="RAW(16)" dbms="oracle"/>
+	
+	<property name="uuid_function" value="uid.uuid_generate_v4()" dbms="postgresql"/>
+	<property name="uuid_function" value="NEWID()" dbms="mssql"/>
+	<property name="uuid_function" value="sys_guid()" dbms="oracle"/>
+    
+    <changeSet id="0" author="Edson.Melo">        
+    <createTable tableName="candidate">    
+		<column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+		    <constraints nullable="false" primaryKey="true" primaryKeyName="candidate_pk"/>		    
+		</column>		
+		<column name="name" type="varchar(50)">
+		  <constraints nullable="false"/>
+		</column>		
+		<column name="birth_date" type="date">
+		  <constraints nullable="false"/>		
+		</column>			        
+    </createTable>   
+    
+    <createTable tableName="exam">    
+		<column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+		    <constraints nullable="false" primaryKey="true" primaryKeyName="exam_pk"/>
+		</column>		
+		<column name="subject" type="varchar(50)">
+		  <constraints nullable="false"/>
+		</column>			        
+    </createTable>
+    
+    <createTable tableName="room">    
+		<column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+		    <constraints nullable="false" primaryKey="true" primaryKeyName="room_pk"/>
+		</column>		
+		<column name="name" type="varchar(50)">
+		  <constraints nullable="false"/>
+		</column>			        
+    </createTable>        
+    
+    <createTable tableName="availability">    
+		<column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+		    <constraints nullable="false" primaryKey="true" primaryKeyName="availability_pk"/>
+		</column>
+		<column name="availability_date" type="date">
+		  <constraints nullable="false"/>		
+		</column>
+		<column name="candidate_id" type="${uuid_type}">
+		    <constraints nullable="false" unique="true" uniqueConstraintName="candidate_id_uk" />
+		</column>		
+		<column name="exam_id" type="${uuid_type}">
+		    <constraints nullable="false" unique="true" uniqueConstraintName="exam_id_uk" />
+		</column>						
+		<column name="room_id" type="${uuid_type}">
+		    <constraints nullable="false"/>
+		</column>		
+    </createTable>
+    <addForeignKeyConstraint baseTableName="availability" baseColumnNames="candidate_id" constraintName="candidate_id_fk" referencedTableName="candidate" referencedColumnNames="id" />    
+    <addForeignKeyConstraint baseTableName="availability" baseColumnNames="exam_id" constraintName="exam_id_fk" referencedTableName="exam" referencedColumnNames="id" />
+    <addForeignKeyConstraint baseTableName="availability" baseColumnNames="room_id" constraintName="room_id_fk" referencedTableName="room" referencedColumnNames="id" />
+    
+    </changeSet>
+</databaseChangeLog>

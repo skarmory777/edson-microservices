@@ -1,0 +1,6 @@
+insert into usuario (login, nome_completo, senha) values ('admin', 'edson', '$2a$10$zYYSF2Pbv9T5gcP5gvHRv.r1y5Uc.6doNbAfmmJloZrmeWAjhDfea');
+insert into usuario (login, nome_completo, senha) values ('usuario', 'usuario', '$2a$10$zYYSF2Pbv9T5gcP5gvHRv.r1y5Uc.6doNbAfmmJloZrmeWAjhDfea');
+insert into "role" (nome_role) values('ROLE_ADMIN');
+insert into "role" (nome_role) values('ROLE_USER');
+insert into usuarios_roles(usuario_id, role_id) values ('admin', 'ROLE_ADMIN');
+insert into usuarios_roles(usuario_id, role_id) values ('usuario', 'ROLE_USER');
